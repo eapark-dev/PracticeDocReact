@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React</title>
+    <script src="https://unpkg.com/react@^16/umd/react.production.min.js"></script>
+    <!--react-->
+    <script src="https://unpkg.com/react-dom@16.13.0/umd/react-dom.production.min.js"></script>
+    <!--react-dom : dom전용 메소드-->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <!--es6+ 사용할 수 있게 자바스크립트 컴파일러 용도-->
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        //컴포넌트 재사용, 캡슐화
+        // 함수 버전
+        // function Clock(props){
+        //     return(
+        //         <div>
+        //             <h1>Hello, world</h1>
+        //             <h2>It is {props.date.toLocaleTimeString()}.</h2>
+        //         </div>
+        //     );
+        // }
+
+        //함수에서 클래스로 변환하기
+        class Clock extends React.Component {
+            //초기 this.state 지정하는 class constructor
+            //초기화
+            constructor(props){
+                super(props);
+                this.state = {date : new Date()};
+            }
+            
+            //DOM에 렌더링 될 때마다 타이머 설정 
+            componentDidMount(){ //컴포넌트 출력물이 DOM에 렌더링 된 후 실행
+                this.timerId = setInterval(
+                    () => this.tick(),1000
+                );
+            }
+
+            componentWillUnmount(){ //타이머 해제 , 분해
+                clearInterval(this.timerId);
+            }
+
+            tick(){
+                this.setState({
+                    date : new Date()
+                });
+            }
+
+            render() {
+                return (
+                    <div>
+                        <h1>Hello, world</h1>
+                        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+                    </div>
+                );
+            }
+        }
+        ReactDOM.render(
+            //State : props와 유사하지만, 비공개이며 컴포넌트에 의해 완전 제어 됨
+            <Clock />,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+
+</html>

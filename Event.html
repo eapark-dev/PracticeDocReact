@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React</title>
+    <script src="https://unpkg.com/react@^16/umd/react.production.min.js"></script>
+    <!--react-->
+    <script src="https://unpkg.com/react-dom@16.13.0/umd/react-dom.production.min.js"></script>
+    <!--react-dom : dom전용 메소드-->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <!--es6+ 사용할 수 있게 자바스크립트 컴파일러 용도-->
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+    class Toggle extends React.Component{
+        constructor(props){
+            super(props);
+            this.state = {isToggleOn : true};
+
+            this.handleClick = this.handleClick.bind(this);
+        }
+
+        handleClick(){
+            this.setState(prevState => ({
+                isToggleOn: !prevState.isToggleOn                    
+            }));
+        }
+
+        render() {
+            return (
+                <div>
+                    <button onClick={this.handleClick}>{this.state.isToggleOn ? 'ON' : 'OFF'}</button>
+                </div>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <Toggle/>,
+        document.getElementById('root')
+    )
+    </script>
+</body>
+</html>

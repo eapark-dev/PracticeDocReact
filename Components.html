@@ -1,0 +1,41 @@
+<!-- Component와 Props -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React</title>
+    <script src="https://unpkg.com/react@^16/umd/react.production.min.js"></script>
+    <!--react-->
+    <script src="https://unpkg.com/react-dom@16.13.0/umd/react-dom.production.min.js"></script>
+    <!--react-dom : dom전용 메소드-->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <!--es6+ 사용할 수 있게 자바스크립트 컴파일러 용도-->
+</head>
+<body>
+    <div id="root"></div>
+    <script  type="text/babel">
+        //컴포넌트 2가지 방식
+        
+        //함수 컴포넌트
+        function Welcome(props){
+            return <h1>Hello, {props.name}</h1>;
+        }
+        
+        function App(){
+            return(
+                <div>
+                    <Welcome name='Euna'/>
+                    <Welcome name='Cahal'/>
+                    <Welcome name='Sara'/>
+                </div>
+            );
+        }
+        ReactDOM.render(
+            <App/>,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+</html>
