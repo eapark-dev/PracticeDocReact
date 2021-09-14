@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React</title>
+    <script src="https://unpkg.com/react@^16/umd/react.production.min.js"></script>
+    <!--react-->
+    <script src="https://unpkg.com/react-dom@16.13.0/umd/react-dom.production.min.js"></script>
+    <!--react-dom : dom전용 메소드-->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <!--es6+ 사용할 수 있게 자바스크립트 컴파일러 용도-->
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        class SearchInput extends React.Component{
+            constructor(props){
+                super(props);   
+                this.handleSearchClick = this.handleSearchClick.bind(this);
+                this.handleSubmit = this.handleSubmit.bind(this);
+            }
+
+            handleSearchClick(e){
+                this.setState({value: e.target.value});
+                this.props.onHandleText(event.target.value);
+            }
+
+            handleSubmit(event) {
+                event.preventDefault();       
+                this.props.onSubmitText(this.props.value);
+            }
+
+            render() {
+                const style = {
+                    width : "250px",
+                    height : "20px",
+                    border : "1px solid black"
+                };
+
+                const styleSelect = {
+                    width:"60px",
+                    height : "25px",
+                    border : "1px solid black"
+                }
+
+                return (
+                    <form onSubmit={this.handleSubmit}>
+                        <input style={style} type="text" placeholder="이름을 입력해주세요." value={this.props.value} onChange={this.handleSearchClick} />
+                        <button type="submit">검색</button>
+                    </form>
+                );
+            }
+        }
+
+        class CreateTbody extends React.Component{
+            render() {
+                const student = this.props.student;
+                const style= {
+                    textAlign : "center",
+                }
+                return (
+                    <tr style={style}>
+                        <td>{student.name}</td>
+                        <td>{student.address}</td>
+                        <td>{student.phone}</td>
+                        <td>{student.school}</td>
+                        <td>{student.grade}</td>
+                    </tr>
+                );
+            }
+        }
+
+        class CreateTable extends React.Component {
+            render() {
+                const style = {
+                    width : "1000px",
+                    border : "1px solid black"
+                };
+                console.log(this.props.value);
+                const value = this.props.value;
+
+                const rows = [];
+                this.props.students.forEach((student) => {
+                    if(student.name.indexOf(value) === -1) {
+                        return;
+                    }
+                    rows.push(
+                        <CreateTbody student={student}  />
+                    )
+                });
+
+                return (
+                    <table style={style}>
+                        <thead>
+                            <th>이름</th>
+                            <th>주소</th>
+                            <th>핸드폰 번호</th>
+                            <th>학교</th>
+                            <th>등급</th>
+                        </thead>
+                        <tbody>{rows}</tbody>
+                    </table>
+                );
+            }
+        }
+        
+        class List extends React.Component{
+            constructor(props) {
+                super(props);
+                this.state = {
+                    value: '',
+                    searchValue : '',
+                };
+
+                this.handleChangeText = this.handleChangeText.bind(this);
+                this.handleSubmitText = this.handleSubmitText.bind(this);
+            }
+
+            handleChangeText(value){
+                this.setState({
+                    value : value
+                })
+            }
+            handleSubmitText(searchValue){
+                this.setState({
+                    searchValue : searchValue
+                })            
+            }
+
+            render() {
+                return (
+                    <div>
+                        <SearchInput
+                             onHandleText={this.handleChangeText}
+                             value={this.state.value}
+                             onSubmitText = {this.handleSubmitText}
+                        />,
+                        <CreateTable students={this.props.students} value={this.state.searchValue}/>,
+                    </div>
+                );
+            }
+        }
+
+        const Students = [
+            { "name": "강길동", "address": "서울시", "phone": "010-0000-0001", "school": "서울대", "grade": "1" },
+            { "name": "김길동", "address": "안양시", "phone": "010-0000-0002", "school": "인천대", "grade": "2" },
+            { "name": "나길동", "address": "충주시", "phone": "010-0000-0003", "school": "인하대", "grade": "4" },
+            { "name": "리길동", "address": "강릉시", "phone": "010-0000-0004", "school": "경희대", "grade": "3" },
+            { "name": "마길동", "address": "속초시", "phone": "010-0000-0005", "school": "시립대", "grade": "1" },
+            { "name": "박길동", "address": "춘천시", "phone": "010-0000-0006", "school": "충북대", "grade": "2" },
+            { "name": "성길동", "address": "평창시", "phone": "010-0000-0007", "school": "충남대", "grade": "3" },
+            { "name": "이길동", "address": "부산시", "phone": "010-0000-0008", "school": "강원대", "grade": "4" },
+            { "name": "정길동", "address": "전주시", "phone": "010-0000-0009", "school": "부산대", "grade": "1" },
+            { "name": "최길동", "address": "청주시", "phone": "010-0000-0010", "school": "경북대", "grade": "2" },
+            { "name": "황길동", "address": "인천시", "phone": "010-0000-0011", "school": "연세대", "grade": "5" }
+        ];
+
+        ReactDOM.render(
+            <List students={Students}/>,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+
+</html>
